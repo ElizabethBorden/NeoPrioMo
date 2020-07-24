@@ -1,0 +1,81 @@
+--------------------
+NeoProMo README File
+--------------------
+
+Creator: Elizabeth Borden
+Contact: knodele@email.arizona.edu
+Last Updated: 7/24/2020
+
+------------
+Dependencies
+------------
+VarScan.v2.3.9 https://sourceforge.net/projects/varscan/files/
+fpfilter.pl https://github.com/ckandoth/variant-filter/blob/master/fpfilter.pl
+gatk-4.1.7.0 https://gatk.broadinstitute.org/hc/en-us/sections/360008763551-4-1-7-0
+strelka-2.9.2 https://github.com/Illumina/strelka/releases
+FP filter from GATK https://github.com/yuxiangtan/FPfilter
+arriba_v1.2.0 https://github.com/suhrig/arriba/releases
+
+---------------------
+SNV Calling - Varscan
+---------------------
+Program name: varscan-mutation-calling.py
+Varscan version: VarScan.v2.3.9
+Varscan Citation: Koboldt, D. C. et al. VarScan 2: somatic mutation and copy number alteration discovery in cancer by exome sequencing. Genome Res. 22, 568576 (2012) https://genome.cshlp.org/content/22/3/568.full.pdf
+Filters employed: Perl FP filter  
+
+--------------------------
+SNV Calling - GATK Mutect2
+--------------------------
+Program name: gatk-mutation-calling.py
+GATK version: gatk-4.1.7.0
+GATK citation: Benjamin, D. et al. Calling Somatic SNVs and Indels with Mutect2. doi:10.1101/861054. https://www.biorxiv.org/content/10.1101/861054v1
+Filters employed: FilterMutectCall
+
+Errors encountered: 
+    1) Program requires a header in a bam file, can be done with steps detailed here: https://gatk.broadinstitute.org/hc/en-us/articles/360037226472-AddOrReplaceReadGroups-Picard
+
+-------------------
+SNV Calling Strelka
+-------------------
+Program name: strelka-mutation-calling.py
+Strelka version: strelka-2.9.2
+Strelka citation: Kim, S. et al. Strelka2: fast and accurate calling of germline and somatic variants. Nat. Methods 15, 591594 (2018). https://www.nature.com/articles/s41592-018-0051-x
+Filters employed: GATK false positive filter 
+GATK FP Citation: Tan, Yuxiang, Yu Zhang, Hengwen Yang, and Zhinan Yin. n.d. FPfilter: A False-Positive-Specific Filter for Whole-Genome Sequencing Variant Calling from GATK. https://doi.org/10.1101/2020.03.23.003525.https://www.biorxiv.org/content/10.1101/2020.03.23.003525v1.full.pdf
+
+Errors encountered:
+    1) Manta not currently working - less important for SNVs, more important for indels, in the process of fixing this. 
+
+---------------
+Getting Overlap
+---------------
+Program name: compare_mutations.py
+Inputs: Peptide files for Gatk, Varscan and Strelka
+Ouputs: Data for Venn diagrams and Lists of overlaps
+
+To do: 
+1) Integrate into a snakemake program
+2) Add the following processing steps into a pipeline: 
+    Prep for Comparison program
+        cat YM-1_VarScan_vep.21.peptide |  awk 'NR%2{printf "%s ",$0;next;}1' | sed '/>WT/d' > YM-1_VarScan_vep.21.collapsed
+    Prep for NetMHCpan
+        cat YM-1_VarScan_vep.21.peptide |sed 's/._ENSMUST0000/ /' > 21_peptides_forNETMHC
+        grep -A 1 '>M' 21_peptides_forNETMHC | sed 's/--//' > 21_peptides_forNETMHC_MT
+
+---------------------
+Gene Fusions - Arriba
+---------------------
+Program: arriba-fusions.py
+Arriba version: arriba_v1.2.0
+Arriba citation: Uhrig, S., Fröhlich, M., Hutter, B. & Brors, B. PO-400 Arriba  fast and accurate gene fusion detection from rna-seq data. Epigenetic Mechanisms (2018) doi:10.1136/esmoopen-2018-eacr25.427.https://esmoopen.bmj.com/content/esmoopen/3/Suppl_2/A179.2.full.pdf
+Filters employed: Filtered for high and medium confidence in snakemake 
+
+---------------------
+MHC Binding NetCTLpan
+---------------------
+Program: netCTLpan-snakemake.py
+NetCTLpan version: netCTLpan-1.1
+NetCTLpan citation: NetCTLpan - Pan-specific MHC class I epitope predictions Stranzl T., Larsen M. V., Lundegaard C., Nielsen M. Immunogenetics. 2010 Apr 9. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2875469/
+Filters employed: filter_MHCrank.py written by Elizabeth Borden
+

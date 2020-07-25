@@ -1,3 +1,7 @@
+#### Arguments to be passed ####
+# Argument 1 - input file from netCTLpan
+# Argument 2 - output file
+
 import sys
 
 with open(sys.argv[1], 'r') as mhc:

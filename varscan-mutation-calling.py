@@ -22,8 +22,8 @@ bamreadcount_path = "bam-readcount"
 peptide_path = "/data/storage/DATASETS/DOWNLOADS/MELANOMA/peptides/"
 
 # Path to packages not in conda
-VarScan_path = "~/external_scripts/VarScan.v2.3.9.jar"
-perl_filter_path = "~/external_scripts/fpfilter-tool-master/fpfilter-2.pl"
+VarScan_path = "/scratch/external_scripts/VarScan.v2.3.9.jar"
+perl_filter_path = "/scratch/external_scripts/fpfilter-tool-master/fpfilter-2.pl"
 perl5lib_path = "/packages/6x/vcftools/0.1.12b/lib/per15/site_perl/"
 
 rule all:

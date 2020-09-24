@@ -2,7 +2,7 @@
 from os.path import join
 
 # Files
-sample = ["SRR3877300"]
+sample = ["SRR3877299", "SRR3877300"]
 configfile: "/scratch/eknodel/Tsai_analysis/Fusions_arriba/HLAalleles.config.json"
 
 # Path to files

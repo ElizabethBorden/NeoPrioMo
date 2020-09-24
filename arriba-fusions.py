@@ -2,7 +2,10 @@
 from os.path import join
 
 # Files
-sample = ["SRR3877297","SRR3877299","SRR3877300","SRR3877302","SRR3877303","SRR3877305","SRR3877307","SRR3877308","SRR3877310","SRR3877311","SRR3877314","SRR3877317","SRR3877319","SRR3877321"]
+#sample = ["SRR3877303"]
+sample = ["SRR3877299","SRR3877300"]
+#,"SRR3877302","SRR3877303","SRR3877305","SRR3877307"]
+#,"SRR3877308","SRR3877310","SRR3877311","SRR3877314","SRR3877317","SRR3877319","SRR3877321"]
 
 # Path to files
 fastq_path = "/data/CEM/wilsonlab/from_collaborators/Tsai_SCC/RNAseq/"
@@ -11,7 +14,7 @@ output_path = "/scratch/eknodel/Tsai_analysis/Fusions_arriba/"
 rule all:
     input:
         expand(output_path + "{sample}/{sample}_fusions.out", sample=sample),
-        expand(output_path + "{sample}/{sample}_fusions_pass.out", sample=sample),
+        #expand(output_path + "{sample}/{sample}_fusions_pass.out", sample=sample),
         expand(output_path + "{sample}/{sample}_peptides.out",sample=sample)
 
 rule sort_bam:
@@ -38,22 +41,22 @@ rule sort_bam:
         {output.fusions_discarded} \
         """
 
-rule loose_filter:
-    input:
-        fusions = os.path.join(output_path, "{sample}/{sample}_fusions.out")
-    output:
-        fusions_filtered = os.path.join(output_path, "{sample}/{sample}_fusions_pass.out")
-    shell:
-        """
-        grep "high"\""medium" {input.fusions} > {output.fusions_filtered};
-        """
+#rule loose_filter:
+#    input:
+#        fusions = os.path.join(output_path, "{sample}/{sample}_fusions.out")
+#    output:
+#        fusions_filtered = os.path.join(output_path, "{sample}/{sample}_fusions_pass.out")
+#    shell:
+#        """
+#        grep "high"\""medium" {input.fusions} > {output.fusions_filtered};
+#        """
 
 rule generate_peptides:
     input:
-        fusions = os.path.join(output_path, "{sample}/{sample}_fusions_pass.out")
+        fusions = os.path.join(output_path, "{sample}/{sample}_fusions.out")
     output:
         peptides = os.path.join(output_path, "{sample}/{sample}_peptides.out")
     shell:
-        r"""
+        """
         cat {input.fusions} | awk '{{print $1"/"$2, $23}}' | sed 's/*//' | sed 's/|//' | sed 's/^/>/' | sed '/\./d' | sed 's/ /\n/' > {output.peptides}
         """

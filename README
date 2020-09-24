@@ -15,6 +15,7 @@ gatk-4.1.7.0 https://gatk.broadinstitute.org/hc/en-us/sections/360008763551-4-1-
 strelka-2.9.2 https://github.com/Illumina/strelka/releases
 FP filter from GATK https://github.com/yuxiangtan/FPfilter
 arriba_v1.2.0 https://github.com/suhrig/arriba/releases
+blast/2.10.1 ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
 
 ---------------------
 SNV Calling - Varscan
@@ -78,4 +79,14 @@ Program: netCTLpan-snakemake.py
 NetCTLpan version: netCTLpan-1.1
 NetCTLpan citation: NetCTLpan - Pan-specific MHC class I epitope predictions Stranzl T., Larsen M. V., Lundegaard C., Nielsen M. Immunogenetics. 2010 Apr 9. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2875469/
 Filters employed: filter_MHCrank.py written by Elizabeth Borden
+
+------------------------------
+Sequence Similarity with Blast
+------------------------------
+Program: sequence_similarity.py 
+Based off of sequence similarity cod from Wood et al.
+Citation: Wood MA, Paralkar M, Paralkar MP, Nguyen A, Struck AJ, Ellrott K, Margolin A, Nellore A, Thompson RF. Population-level distribution and putative immunogenicity of cancer neoepitopes. BMC Cancer. 2018;18(1):414. doi:10.1186/s12885-018-4325-6 
+Blast version: blast/2.10.1
+Blast citation: Camacho C, Coulouris G, Avagyan V, et al. BLAST+: Architecture and applications. BMC Bioinformatics. 2009;10(1):421. doi:10.1186/1471-2105-10-421 
+Database: Ensembl's set of all GRCh38 peptides (ftp://ftp.ensembl.org/pub/release-88/fasta/homo_sapiens/pep/Homo_sapiens.GRCh38.pep.all.fa.gz)
 

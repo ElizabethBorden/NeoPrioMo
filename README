@@ -83,10 +83,27 @@ Filters employed: filter_MHCrank.py written by Elizabeth Borden
 ------------------------------
 Sequence Similarity with Blast
 ------------------------------
-Program: sequence_similarity.py 
-Based off of sequence similarity cod from Wood et al.
+Program: blast_netCTL.py (runs sequence_similarity.py) 
+Based off of sequence similarity code from Wood et al.
 Citation: Wood MA, Paralkar M, Paralkar MP, Nguyen A, Struck AJ, Ellrott K, Margolin A, Nellore A, Thompson RF. Population-level distribution and putative immunogenicity of cancer neoepitopes. BMC Cancer. 2018;18(1):414. doi:10.1186/s12885-018-4325-6 
 Blast version: blast/2.10.1
 Blast citation: Camacho C, Coulouris G, Avagyan V, et al. BLAST+: Architecture and applications. BMC Bioinformatics. 2009;10(1):421. doi:10.1186/1471-2105-10-421 
 Database: Ensembl's set of all GRCh38 peptides (ftp://ftp.ensembl.org/pub/release-88/fasta/homo_sapiens/pep/Homo_sapiens.GRCh38.pep.all.fa.gz)
+Input file: Peptides with peptides as labels
 
+---------------
+Prep for Luksza
+---------------
+Program: Penalized_Regression_Fit.R
+Part of this program preps files for Luksza program, another part prepares it for the penalized regression model.
+
+To do: 
+Integrate and make run-able from the command line environment. 
+
+------------------------------
+Luksza TCR Recognition Program
+------------------------------
+Program: luksza-snakemake.py
+Runs the luksza sequence similarity and curve fitting code.
+Citation: Łuksza M, Riaz N, Makarov V, Balachandran VP, Hellmann MD, Solovyov A, Rizvi NA, Merghoub T, Levine AJ, Chan TA, et al. A neoantigen fitness model predicts tumor response to checkpoint blockade immunotherapy. Nature. 2017;551(7681):517-520. doi:10.1038/nature24473
+Requires the Luksza program obtained from here: https://www.nature.com/articles/nature24473

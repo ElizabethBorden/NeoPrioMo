@@ -2,46 +2,40 @@
 from os.path import join
 
 # Files
-sample = ["SRR3877299", "SRR3877300"]
-configfile: "/scratch/eknodel/Tsai_analysis/Fusions_arriba/HLAalleles.config.json"
+sample = ["fusion"]
 
 # Path to files
-output_path = "/scratch/eknodel/Tsai_analysis/Fusions_arriba/"
+peptide_path = "/scratch/eknodel/cohen_melanoma/RNAseq/fusions_arriba/"
 
 rule all:
     input:
-        expand(output_path + "{sample}/{sample}_netctl.xsl", sample=sample),
-        expand(output_path + "{sample}/{sample}_netctl.out", sample=sample),
-        expand(output_path + "{sample}/{sample}_netctl_filtered.out", sample=sample)
+        expand(peptide_path + "{sample}/{sample}_9_netctl.xsl", sample=sample),
+        expand(peptide_path + "{sample}/{sample}_10_netctl.xsl", sample=sample),
+        expand(peptide_path + "{sample}/{sample}_netCTL.out", sample=sample)
 
 rule netCTL:
     input:
-        peptides = os.path.join(output_path, "{sample}/{sample}_peptides.out")
+        peptides = os.path.join(peptide_path, "{sample}/{sample}_peptides.in")
     output:
-        netCTL = os.path.join(output_path, "{sample}/{sample}_netctl.xsl")
+        netCTL_9  = os.path.join(peptide_path, "{sample}/{sample}_9_netctl.xsl"),
+        netCTL_10 = os.path.join(peptide_path, "{sample}/{sample}_10_netctl.xsl")
     params:
-        hla = lambda wildcards: config[wildcards.sample]["HLA_allele"][0]
+        hla = "HLA-A01:01"
     shell:
         """
-        netCTLpan -a HLA-A03:01,HLA-B14:02,HLA-B14:03,HLA-C08:02 -f {input.peptides} -s -xls -xlsfile {output.netCTL}
+        netCTLpan -a {params.hla} -f {input.peptides} -s -xls -l 9  -xlsfile {output.netCTL_9};
+        netCTLpan -a {params.hla} -f {input.peptides} -s -xls -l 10 -xlsfile {output.netCTL_10};
         """
 
-rule remove_header:
+rule combine_netCTL:
     input:
-        netCTL = os.path.join(output_path, "{sample}/{sample}_netctl.xsl")
+        netCTL_9 = os.path.join(peptide_path, "{sample}/{sample}_9_netctl.xsl"),
+        netCTL_10 = os.path.join(peptide_path, "{sample}/{sample}_10_netctl.xsl")
     output:
-        netCTL_noheader = os.path.join(output_path, "{sample}/{sample}_netctl.out")
+        netCTL = os.path.join(peptide_path, "{sample}/{sample}_netCTL.out")
     shell:
         """
-        cat {input.netCTL} | sed '/Allele/d' > {output.netCTL_noheader}
-        """
-
-rule filter_netCTL:
-    input: 
-        netCTL_noheader = os.path.join(output_path, "{sample}/{sample}_netctl.out")
-    output: 
-        netCTL_filter = os.path.join(output_path, "{sample}/{sample}_netctl_filtered.out")
-    shell:
-        """
-        python ~/Novel_model/filter_MHCrank.py {input.netCTL_noheader} {output.netCTL_filter}
+        echo "Peptide  WTmatch MHC TAP Cle Comb    %Rank" >> {output.netCTL};
+        cat {input.netCTL_10} | sed '/Allele/d' | awk {{'print $2, $5, $6, $7, $8, $9}}' >> {output.netCTL};
+        cat {input.netCTL_9} | sed '/Allele/d' | awk {{'print $2, $5, $6, $7, $8, $9}}' >> {output.netCTL} 
         """

@@ -78,7 +78,18 @@ MHC Binding NetCTLpan
 Program: netCTLpan-snakemake.py
 NetCTLpan version: netCTLpan-1.1
 NetCTLpan citation: NetCTLpan - Pan-specific MHC class I epitope predictions Stranzl T., Larsen M. V., Lundegaard C., Nielsen M. Immunogenetics. 2010 Apr 9. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2875469/
-Filters employed: filter_MHCrank.py written by Elizabeth Borden
+Filters employed: filter_MHCrank.py written by Elizabeth Borden - no longer in use
+
+Alternatives: netMHCpan-snakemake.py
+MetMHCpan version: netMHCpan-4.0
+NetMHCpan citation: NetMHCpan-4.0: Improved PeptideMHC Class I Interaction Predictions Integrating Eluted Ligand and Peptide Binding Affinity Data Vanessa Jurtz, Sinu Paul, Massimo Andreatta, Paolo Marcatili, Bjoern Peters and Morten Nielsen The Journal of Immunology (2017) ji1700893; DOI: 10.4049/jimmunol.1700893 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5679736/
+
+---------------------
+MHC Binding Stability
+---------------------
+Program: netMHCstabpan-snakemake.py
+NetMHCstabpan version: NetMHCstabpan-1.0
+NetMHCstabpan citation: Pan-specific prediction of peptide-MHC-I complex stability; a correlate of T cell immunogenicity Michael Rasmussen, Emilio Fenoy, Mikkel Harndahl, Anne Bregnballe Kristensen, Ida Kallehauge Nielsen, Morten Nielsen, Soren Buus. Accepted for publication Journal of Immunology, June 2016 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4976001/
 
 ------------------------------
 Sequence Similarity with Blast

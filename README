@@ -115,6 +115,13 @@ Integrate and make run-able from the command line environment.
 Luksza TCR Recognition Program
 ------------------------------
 Program: luksza-snakemake.py
-Runs the luksza sequence similarity and curve fitting code.
+Runs:
+main.py
+Aligner.py
+Neoantigen.py
+All adapted and updated from Luksza et al. 
+Changes:
+- Updated a few functions that were not compatable with a newer version of python
+- Updated hydrophobicity to have functions that can either do the original binding residue hydrophobicity or the fraction hydrophobicity calculated using Luksza's definition of hydrophobic residues or the fraction hydrophobicity calculated using the consortium's definition of hydrophobic residues. (https://doi.org/10.1016/j.cell.2020.09.015)
 Citation: Łuksza M, Riaz N, Makarov V, Balachandran VP, Hellmann MD, Solovyov A, Rizvi NA, Merghoub T, Levine AJ, Chan TA, et al. A neoantigen fitness model predicts tumor response to checkpoint blockade immunotherapy. Nature. 2017;551(7681):517-520. doi:10.1038/nature24473
 Requires the Luksza program obtained from here: https://www.nature.com/articles/nature24473
